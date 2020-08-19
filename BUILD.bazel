@@ -15,7 +15,7 @@ npm_package_bin(
     tool = "@npm//next/bin:next",
     output_dir = True,
     data = [
-        # もしnpm_package_binがdepsを提供していれば、bazel build distの実行時にexpand_templateした後のnext.config.jsにアクセスできる
+        # If npm_package_bin provides a interface transitive_deps, this target can access next.config.js which //:next.config build.
         # //:next.config
         "//:next.config.js",
         "//:pages/index.jsx",

@@ -1,0 +1,25 @@
+load(":next_config_js.bzl", "next_config_js")
+
+next_config_js(
+    name = "next.config",
+    template = "//:next.config.js.tpl",
+)
+
+load("@build_bazel_rules_nodejs//:index.bzl", "npm_package_bin")
+
+npm_package_bin(
+    name = "dist",
+    args = [
+        "build",
+    ],
+    tool = "@npm//next/bin:next",
+    output_dir = True,
+    data = [
+        # もしnpm_package_binがdepsを提供していれば、bazel build distの実行時にexpand_templateした後のnext.config.jsにアクセスできる
+        # //:next.config
+        "//:next.config.js",
+        "//:pages/index.jsx",
+        "//:package.json",
+        "@npm//:node_modules",
+    ],
+)
